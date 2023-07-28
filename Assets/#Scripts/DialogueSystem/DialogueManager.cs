@@ -87,7 +87,6 @@ public class DialogueManager : MonoBehaviour
 
         foreach (char letter in _currentDialogue._dialogueText)
         {
-            Debug.Log("Typing letter " + letter);
             _dialogueText.text += letter;
 
             elapsedTime += Time.deltaTime;

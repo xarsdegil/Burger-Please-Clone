@@ -28,7 +28,11 @@ public class StoveController : MonoBehaviour
 
     private void Update()
     {
-        if (!_canMake) return;
+        if (!_canMake)
+        {
+            _ctr = 0;
+            return;
+        }
 
         if (_currentBurgerCount == _maxBurgerCount)
         {
@@ -43,6 +47,11 @@ public class StoveController : MonoBehaviour
         }
 
         MakeBurger();
+    }
+
+    public bool CanGive()
+    {
+        return _currentBurgerCount != 0;
     }
 
     private void MakeBurger()
@@ -61,7 +70,8 @@ public class StoveController : MonoBehaviour
 
     public void GetBurger()
     {
-
+        _currentBurgerCount--;
+        _allBurgers[_currentBurgerCount].SetActive(false);
     }
     
 }

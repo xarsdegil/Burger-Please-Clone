@@ -13,5 +13,5 @@ MonoBehaviour:
   m_Name: 4
   m_EditorClassIdentifier: 
   _dialogueText: "Bu \xE7ok heyecanl\u0131! Hemen ba\u015Flayal\u0131m!"
-  _onFinishGameObjectName: 
+  _onFinishGameObjectName: HandleGameStart
   _nextDialogue: {fileID: 0}
