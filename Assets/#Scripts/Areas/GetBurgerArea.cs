@@ -10,6 +10,7 @@ public class GetBurgerArea : MonoBehaviour
 
     private void OnTriggerEnter(Collider other)
     {
+        if (!GameManager.instance._isGameStarted) return;
         if (other.CompareTag("Player"))
         {
             StoveController.instance._canMake = false;
@@ -18,6 +19,7 @@ public class GetBurgerArea : MonoBehaviour
 
     private void OnTriggerStay(Collider other)
     {
+        if (!GameManager.instance._isGameStarted) return;
         if (other.CompareTag("Player"))
         {
             if(!PlayerCarryController.instance.CanCarry() || !StoveController.instance.CanGive())
@@ -31,12 +33,14 @@ public class GetBurgerArea : MonoBehaviour
             {
                 PlayerCarryController.instance.AddBurger();
                 StoveController.instance.GetBurger();
+                _ctr = 0f;
             }
         }
     }
 
     private void OnTriggerExit(Collider other)
     {
+        if (!GameManager.instance._isGameStarted) return;
         if (other.CompareTag("Player"))
         {
             StoveController.instance._canMake = true;
