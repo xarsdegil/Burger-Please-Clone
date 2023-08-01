@@ -35,6 +35,7 @@ public class BuyArea : MonoBehaviour
                 if (_isActivatingOtherObject)
                 {
                     GameObject.Find(_onFinishGameObjectName).transform.GetChild(0).gameObject.SetActive(true);
+                    NavMeshBaker.instance.BakeNavMesh();
                 }
 
                 if (_isStartingDialogue)

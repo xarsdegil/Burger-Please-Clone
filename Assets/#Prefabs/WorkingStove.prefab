@@ -248,7 +248,7 @@ PrefabInstance:
     m_Modifications:
     - target: {fileID: 2854977874827931426, guid: 04a0b84ab0570494bb476d488c8d838c, type: 3}
       propertyPath: m_Name
-      value: Stove Variant
+      value: WorkingStove
       objectReference: {fileID: 0}
     - target: {fileID: 3230554195392705944, guid: 04a0b84ab0570494bb476d488c8d838c, type: 3}
       propertyPath: m_RootOrder

@@ -12,11 +12,18 @@ public class PlayerTouchMovement : MonoBehaviour
     [SerializeField] FloatingJoystick _joystick;
     [SerializeField] NavMeshAgent _navMeshAgent;
     [SerializeField] Animator _animator;
+    Rigidbody _rigidbody;
     Finger _movementFinger;
     Vector2 _movementAmount;
 
     public bool _canMove = true;
+    bool _isMoving = false;
 
+
+    private void Awake()
+    {
+        _rigidbody = GetComponent<Rigidbody>();
+    }
 
     private void Update()
     {
@@ -24,6 +31,11 @@ public class PlayerTouchMovement : MonoBehaviour
         Vector3 scaledMovement = new Vector3(_movementAmount.x, 0, _movementAmount.y) * _navMeshAgent.speed * Time.deltaTime;
         _navMeshAgent.transform.LookAt(_navMeshAgent.transform.position + scaledMovement, Vector3.up);
         _navMeshAgent.Move(scaledMovement);
+
+        if (!_isMoving)
+        {
+            _rigidbody.velocity = Vector3.zero;
+        }
     }
 
     private void OnEnable()
@@ -62,6 +74,7 @@ public class PlayerTouchMovement : MonoBehaviour
     private void HandleFingerUp(Finger finger)
     {
         if (_movementFinger != finger) return;
+        _isMoving = false;
         _movementFinger = null;
         _movementAmount = Vector2.zero;
         _joystick._knob.anchoredPosition = Vector2.zero;
@@ -73,6 +86,7 @@ public class PlayerTouchMovement : MonoBehaviour
     {
         if (!_canMove) return;
         if (_movementFinger != null) return;
+        _isMoving = true;
         _movementFinger = finger;
         _movementAmount = Vector2.zero;
         _joystick.gameObject.SetActive(true);
