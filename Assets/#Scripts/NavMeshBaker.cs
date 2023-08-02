@@ -1,5 +1,6 @@
 using System.Collections;
 using System.Collections.Generic;
+using System.Threading.Tasks;
 using Unity.AI.Navigation;
 using UnityEngine;
 
@@ -17,12 +18,21 @@ public class NavMeshBaker : MonoBehaviour
 
     private void Start()
     {
+        //_navMeshSurface.BuildNavMesh();
         BakeNavMesh();
+    }
+
+    private void Update()
+    {
+        if (Input.GetKeyDown(KeyCode.B))
+        {
+            BakeNavMesh();
+        }
     }
 
     public void BakeNavMesh()
     {
-        _navMeshSurface.RemoveData();
-        _navMeshSurface.BuildNavMesh();
+        if(_navMeshSurface.navMeshData == null) _navMeshSurface.BuildNavMesh();
+        _navMeshSurface.UpdateNavMesh(_navMeshSurface.navMeshData);
     }
 }

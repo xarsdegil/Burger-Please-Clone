@@ -7,6 +7,5 @@ public class HandleGameStart : MonoBehaviour
     private void OnEnable()
     {
         GameManager.instance._isGameStarted = true;
-        StoveController.instance._canMake = true;
     }
 }

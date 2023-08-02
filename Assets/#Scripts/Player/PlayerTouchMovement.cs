@@ -12,25 +12,41 @@ public class PlayerTouchMovement : MonoBehaviour
     [SerializeField] FloatingJoystick _joystick;
     [SerializeField] NavMeshAgent _navMeshAgent;
     [SerializeField] Animator _animator;
+
+    [SerializeField] Transform _fwd;
+
     Rigidbody _rigidbody;
     Finger _movementFinger;
     Vector2 _movementAmount;
 
+    Vector3 cameraForward, cameraRight;
+
     public bool _canMove = true;
     bool _isMoving = false;
-
 
     private void Awake()
     {
         _rigidbody = GetComponent<Rigidbody>();
     }
 
+    private void Start()
+    {
+        cameraForward = _fwd.forward;
+        cameraRight = _fwd.right;
+        cameraForward.y = 0;
+        cameraForward = cameraForward.normalized;
+        cameraRight.y = 0;
+        cameraRight = cameraRight.normalized;
+    }
+
     private void Update()
     {
         if (!_canMove) return;
         Vector3 scaledMovement = new Vector3(_movementAmount.x, 0, _movementAmount.y) * _navMeshAgent.speed * Time.deltaTime;
-        _navMeshAgent.transform.LookAt(_navMeshAgent.transform.position + scaledMovement, Vector3.up);
-        _navMeshAgent.Move(scaledMovement);
+
+        Vector3 moveDir = cameraForward * scaledMovement.z + cameraRight * scaledMovement.x;
+        _navMeshAgent.transform.LookAt(_navMeshAgent.transform.position + moveDir, Vector3.up);
+        _navMeshAgent.Move(moveDir);
 
         if (!_isMoving)
         {
@@ -62,13 +78,18 @@ public class PlayerTouchMovement : MonoBehaviour
         float maxMovement = _joystickSize.x / 2;
         ETouch.Touch currentTouch = finger.currentTouch;
 
-        if(Vector2.Distance(currentTouch.screenPosition, _joystick._rectTransform.anchoredPosition) > maxMovement){
+        if (Vector2.Distance(currentTouch.screenPosition, _joystick._rectTransform.anchoredPosition) > maxMovement)
+        {
             knobPosition = (currentTouch.screenPosition - _joystick._rectTransform.anchoredPosition).normalized * maxMovement;
-        }else{
+        }
+        else
+        {
             knobPosition = currentTouch.screenPosition - _joystick._rectTransform.anchoredPosition;
         }
         _joystick._knob.anchoredPosition = knobPosition;
-        _movementAmount = knobPosition / maxMovement;
+
+        Vector2 moveDir = new Vector2(_fwd.forward.x, _fwd.forward.z);
+        _movementAmount = (moveDir + knobPosition) / maxMovement;
     }
 
     private void HandleFingerUp(Finger finger)
@@ -97,10 +118,11 @@ public class PlayerTouchMovement : MonoBehaviour
 
     private Vector2 ClampStartPosition(Vector2 startPosition)
     {
-        if(startPosition.x < _joystickSize.x / 2)
+        if (startPosition.x < _joystickSize.x / 2)
         {
             startPosition.x = _joystickSize.x / 2;
-        }else if(startPosition.x > Screen.width - (_joystickSize.x / 2))
+        }
+        else if (startPosition.x > Screen.width - (_joystickSize.x / 2))
         {
             startPosition.x = Screen.width - (_joystickSize.x / 2);
         }

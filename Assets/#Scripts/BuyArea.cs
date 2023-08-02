@@ -1,5 +1,7 @@
+using System;
 using System.Collections;
 using System.Collections.Generic;
+using System.Threading.Tasks;
 using TMPro;
 using UnityEngine;
 using UnityEngine.UI;
@@ -31,11 +33,11 @@ public class BuyArea : MonoBehaviour
             if (_spentAmount >= _cost)
             {
                 _setActiveObject.SetActive(true);
+                NavMeshBaker.instance.BakeNavMesh();
 
                 if (_isActivatingOtherObject)
                 {
                     GameObject.Find(_onFinishGameObjectName).transform.GetChild(0).gameObject.SetActive(true);
-                    NavMeshBaker.instance.BakeNavMesh();
                 }
 
                 if (_isStartingDialogue)
@@ -58,6 +60,7 @@ public class BuyArea : MonoBehaviour
             }
         }
     }
+
     private void OnTriggerExit(Collider other)
     {
         if (other.CompareTag("Player"))
