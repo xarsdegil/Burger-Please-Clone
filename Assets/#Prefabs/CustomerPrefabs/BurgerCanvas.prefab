@@ -13,7 +13,7 @@ GameObject:
   - component: {fileID: 3856205894729222008}
   - component: {fileID: 5712929331187226238}
   m_Layer: 0
-  m_Name: CustomerCanvas
+  m_Name: BurgerCanvas
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0

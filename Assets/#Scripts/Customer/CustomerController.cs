@@ -9,12 +9,16 @@ public class CustomerController : MonoBehaviour
     NavMeshAgent _agent;
     Animator _animator;
     Transform _target;
+    ChairController _currentChair;
 
     int _wantedBurgerCount;
+    bool _waitingForTable = false;
+
+
 
     [SerializeField] int _minBurgerCount = 1, _maxBurgerCount = 3;
     int _currentBurgerCount = 0;
-    [SerializeField] GameObject _customerCanvas;
+    [SerializeField] GameObject _burgerCanvas, _unavailableAnyTableCanvas;
     [SerializeField] TMP_Text _wantedBurgerCountText;
     [SerializeField] GameObject _tray;
     [SerializeField] List<GameObject> _allBurgers = new List<GameObject>();
@@ -42,6 +46,7 @@ public class CustomerController : MonoBehaviour
         //lookPos.z = transform.position.z + 1f;
         //lookPos.y = transform.position.y;
         //transform.LookAt(lookPos);
+
         if (Vector3.Distance(transform.position, _target.position) <= 1f)
         {
             if(_target.CompareTag("Chair"))
@@ -70,6 +75,25 @@ public class CustomerController : MonoBehaviour
             _agent.isStopped = false;
             _agent.SetDestination(_target.position);
         }
+
+        if (_waitingForTable)
+        {
+            var chair = ChairsManager.instance.GetRandomChair();
+            if (chair != null)
+            {
+                HideUnavailableAnyTableCanvas();
+                SetTarget(chair);
+                chair.GetComponent<ChairController>().SetCustomer(this);
+                _currentChair = chair.GetComponent<ChairController>();
+                CustomersManager.instance.RemoveCustomer();
+                _waitingForTable = false;
+            }
+            else
+            {
+                ShowUnavailableAnyTableCanvas();
+            }
+        }
+
         _animator.SetBool("isRunning", _agent.isStopped ? false : true);
     }
 
@@ -83,14 +107,24 @@ public class CustomerController : MonoBehaviour
         _wantedBurgerCountText.text = _wantedBurgerCount.ToString();
     }
 
-    public void ShowCanvas()
+    public void ShowBurgerCanvas()
     {
-        _customerCanvas.SetActive(true);
+        _burgerCanvas.SetActive(true);
     }
 
-    public void HideCanvas()
+    public void HideBurgerCanvas()
     {
-        _customerCanvas.SetActive(false);
+        _burgerCanvas.SetActive(false);
+    }
+
+    public void ShowUnavailableAnyTableCanvas()
+    {
+        _unavailableAnyTableCanvas.SetActive(true);
+    }
+
+    public void HideUnavailableAnyTableCanvas()
+    {
+        _unavailableAnyTableCanvas.SetActive(false);
     }
 
     public bool CanTakeBurger()
@@ -100,6 +134,8 @@ public class CustomerController : MonoBehaviour
 
     public void TakeBurger()
     {
+        if (_waitingForTable) return;
+
         if(_currentBurgerCount == 0)
         {
             _tray.SetActive(true);
@@ -110,18 +146,9 @@ public class CustomerController : MonoBehaviour
 
         if (_currentBurgerCount == _wantedBurgerCount)
         {
-            HideCanvas();
-            CustomersManager.instance.RemoveCustomer();
+            _waitingForTable = true;
+            HideBurgerCanvas();
         }
-        
-        SetTarget(SelectRandomChair());
-    }
-
-    private Transform SelectRandomChair()
-    {
-        var allChairs = GameObject.FindGameObjectsWithTag("Chair");
-        var randomChair = allChairs[Random.Range(0, allChairs.Length)];
-        return randomChair.transform;
     }
 
     public void RemoveBurger()

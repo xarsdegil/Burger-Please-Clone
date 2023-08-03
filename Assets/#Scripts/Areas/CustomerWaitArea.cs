@@ -12,7 +12,7 @@ public class CustomerWaitArea : MonoBehaviour
         if (other.CompareTag("Customer"))
         {
             var customer = other.GetComponent<CustomerController>();
-            customer.ShowCanvas();
+            customer.ShowBurgerCanvas();
         }
     }
 
