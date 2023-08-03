@@ -343,7 +343,7 @@ GameObject:
   - component: {fileID: 34684074}
   m_Layer: 0
   m_Name: WaitPoint
-  m_TagString: Untagged
+  m_TagString: WaitPoint
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -4323,7 +4323,7 @@ GameObject:
   - component: {fileID: 337538455}
   m_Layer: 0
   m_Name: WaitPoint
-  m_TagString: Untagged
+  m_TagString: WaitPoint
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -4817,7 +4817,7 @@ GameObject:
   - component: {fileID: 401539252}
   m_Layer: 0
   m_Name: WaitPoint
-  m_TagString: Untagged
+  m_TagString: WaitPoint
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -15802,6 +15802,7 @@ MonoBehaviour:
   - {fileID: 1253761765538470460, guid: 21055bd97a237704682d745d55b03078, type: 3}
   - {fileID: 2581134350707575760, guid: a50303f873353a04ab9b89558c173f68, type: 3}
   - {fileID: 5604995619002906199, guid: 2286df5ca60082c4194abafae7cb0080, type: 3}
+  _customersQueue: []
   _waitPoints:
   - {fileID: 337538455}
   - {fileID: 34684074}
@@ -24276,7 +24277,7 @@ GameObject:
   - component: {fileID: 1761766701}
   m_Layer: 0
   m_Name: WaitPoint
-  m_TagString: Untagged
+  m_TagString: WaitPoint
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -25885,6 +25886,10 @@ PrefabInstance:
       value: chair_red Variant (1)
       objectReference: {fileID: 0}
     - target: {fileID: 1063956754257993831, guid: 78b93ef16d11ddd46b00435f35a5ae4c, type: 3}
+      propertyPath: m_TagString
+      value: Chair
+      objectReference: {fileID: 0}
+    - target: {fileID: 1063956754257993831, guid: 78b93ef16d11ddd46b00435f35a5ae4c, type: 3}
       propertyPath: m_NavMeshLayer
       value: 1
       objectReference: {fileID: 0}
@@ -26223,7 +26228,7 @@ GameObject:
   - component: {fileID: 1897722022}
   m_Layer: 0
   m_Name: WaitPoint
-  m_TagString: Untagged
+  m_TagString: WaitPoint
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -26894,6 +26899,10 @@ PrefabInstance:
     - target: {fileID: 1063956754257993831, guid: 78b93ef16d11ddd46b00435f35a5ae4c, type: 3}
       propertyPath: m_Name
       value: chair_red Variant
+      objectReference: {fileID: 0}
+    - target: {fileID: 1063956754257993831, guid: 78b93ef16d11ddd46b00435f35a5ae4c, type: 3}
+      propertyPath: m_TagString
+      value: Chair
       objectReference: {fileID: 0}
     - target: {fileID: 1063956754257993831, guid: 78b93ef16d11ddd46b00435f35a5ae4c, type: 3}
       propertyPath: m_NavMeshLayer
@@ -30825,7 +30834,7 @@ PrefabInstance:
     - target: {fileID: 8574416259988801314, guid: a03d6bed7439596498273d98bafaa54c, type: 3}
       propertyPath: m_Materials.Array.data[0]
       value: 
-      objectReference: {fileID: 2100000, guid: 31321ba15b8f8eb4c954353edc038b1d, type: 2}
+      objectReference: {fileID: 2100000, guid: fbba99185d2b37441a72f8b84de36030, type: 2}
     - target: {fileID: 8648615528944336561, guid: a03d6bed7439596498273d98bafaa54c, type: 3}
       propertyPath: m_LocalEulerAnglesHint.x
       value: 0.000002102359
@@ -31162,6 +31171,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: e428bfc5be9732244b289f275912a57d, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  _waitTime: 0.5
 --- !u!224 &8885138620116279749
 RectTransform:
   m_ObjectHideFlags: 0

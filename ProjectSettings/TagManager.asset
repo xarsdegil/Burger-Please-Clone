@@ -5,6 +5,8 @@ TagManager:
   serializedVersion: 2
   tags:
   - Customer
+  - Chair
+  - WaitPoint
   layers:
   - Default
   - TransparentFX

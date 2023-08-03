@@ -13,13 +13,16 @@ public class CustomerController : MonoBehaviour
     int _wantedBurgerCount;
 
     [SerializeField] int _minBurgerCount = 1, _maxBurgerCount = 3;
+    int _currentBurgerCount = 0;
     [SerializeField] GameObject _customerCanvas;
     [SerializeField] TMP_Text _wantedBurgerCountText;
-
+    [SerializeField] GameObject _tray;
+    [SerializeField] List<GameObject> _allBurgers = new List<GameObject>();
     private void Awake()
     {
         _agent = GetComponent<NavMeshAgent>();
         _animator = GetComponent<Animator>();
+        _maxBurgerCount = _allBurgers.Count;
         _wantedBurgerCount = Random.Range(_minBurgerCount, _maxBurgerCount + 1);
         SetWantedBurgerCount();
     }
@@ -27,14 +30,40 @@ public class CustomerController : MonoBehaviour
     private void Update()
     {
         if (_target == null) return;
-        if(Vector3.Distance(transform.position, _target.position) <= 0.1f)
+        Move();
+    }
+
+    private void Move()
+    {
+
+        //_agent.isStopped = true;
+        //transform.position = _target.position;
+        //var lookPos = _target.position;
+        //lookPos.z = transform.position.z + 1f;
+        //lookPos.y = transform.position.y;
+        //transform.LookAt(lookPos);
+        if (Vector3.Distance(transform.position, _target.position) <= 1f)
         {
-            _agent.isStopped = true;
-            transform.position = _target.position;
-            var lookPos = _target.position;
-            lookPos.z = transform.position.z + 1f;
-            lookPos.y = transform.position.y;
-            transform.LookAt(lookPos);
+            if(_target.CompareTag("Chair"))
+            {
+                _agent.isStopped = true;
+                transform.position = _target.position;
+                var lookPos = _target.position + _target.forward;
+                transform.LookAt(lookPos);
+                _animator.SetBool("isSitting", true);
+                _animator.SetBool("isRunning", false);
+                _tray.SetActive(false);
+            }
+            else if (_target.CompareTag("WaitPoint"))
+            {
+                _agent.isStopped = true;
+                transform.position = _target.position;
+                var lookPos = _target.position;
+                lookPos.z = transform.position.z + 1f;
+                lookPos.y = transform.position.y;
+                transform.LookAt(lookPos);
+                _animator.SetBool("isRunning", false);
+            }
         }
         else
         {
@@ -57,5 +86,63 @@ public class CustomerController : MonoBehaviour
     public void ShowCanvas()
     {
         _customerCanvas.SetActive(true);
+    }
+
+    public void HideCanvas()
+    {
+        _customerCanvas.SetActive(false);
+    }
+
+    public bool CanTakeBurger()
+    {
+        return _currentBurgerCount < _wantedBurgerCount;
+    }
+
+    public void TakeBurger()
+    {
+        if(_currentBurgerCount == 0)
+        {
+            _tray.SetActive(true);
+            _animator.SetBool("isCarrying", true);
+        }
+        _allBurgers[_currentBurgerCount].SetActive(true);
+        _currentBurgerCount++;
+
+        if (_currentBurgerCount == _wantedBurgerCount)
+        {
+            HideCanvas();
+            CustomersManager.instance.RemoveCustomer();
+        }
+        
+        SetTarget(SelectRandomChair());
+    }
+
+    private Transform SelectRandomChair()
+    {
+        var allChairs = GameObject.FindGameObjectsWithTag("Chair");
+        var randomChair = allChairs[Random.Range(0, allChairs.Length)];
+        return randomChair.transform;
+    }
+
+    public void RemoveBurger()
+    {
+        _currentBurgerCount--;
+        _allBurgers[_currentBurgerCount].SetActive(false);
+        if (_currentBurgerCount == 0)
+        {
+            _tray.SetActive(false);
+            _animator.SetBool("isCarrying", false);
+        }
+    }
+
+    public void RemoveAllBurgers()
+    {
+        foreach (var burger in _allBurgers)
+        {
+            if (burger.activeSelf) burger.SetActive(false);
+        }
+        _currentBurgerCount = 0;
+        _tray.SetActive(false);
+        _animator.SetBool("isCarrying", false);
     }
 }

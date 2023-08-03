@@ -5,8 +5,11 @@ using UnityEngine;
 
 public class CustomersManager : MonoBehaviour
 {
+
+    public static CustomersManager instance;
+
     [SerializeField] List<CustomerController> _customerPrefabs = new List<CustomerController>();
-    [SerializeField] Queue<CustomerController> _customersQueue = new Queue<CustomerController>();
+    [SerializeField] List<CustomerController> _customersQueue = new List<CustomerController>();
     [SerializeField] List<Transform> _waitPoints = new List<Transform>();
     [SerializeField] Transform _spawnPoint;
     [SerializeField] float _spawnTime = 5f;
@@ -17,6 +20,7 @@ public class CustomersManager : MonoBehaviour
 
     private void Awake()
     {
+        instance = this;
         _maxCustomers = _waitPoints.Count;
     }
 
@@ -49,8 +53,19 @@ public class CustomersManager : MonoBehaviour
         lastCustomerIndex = randIndex;
         CustomerController customer = Instantiate(_customerPrefabs[randIndex], _spawnPoint.position, Quaternion.identity);
         customer.transform.SetParent(transform);
-        _customersQueue.Enqueue(customer);
+        _customersQueue.Add(customer);
         customer.SetTarget(_waitPoints[_currentQueue]);
         _currentQueue++;
+    }
+
+    public void RemoveCustomer()
+    {
+        _customersQueue.RemoveAt(0);
+        _currentQueue--;
+        for (int i = 0; i < _customersQueue.Count; i++)
+        {
+            _customersQueue[i].SetTarget(_waitPoints[i]);
+        }
+        _canSpawn = true;
     }
 }

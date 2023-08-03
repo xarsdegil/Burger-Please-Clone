@@ -37,7 +37,7 @@ public class CashierController : MonoBehaviour
         }
     }
 
-    public void GetBurger()
+    public void GiveBurger()
     {
         if (_currentBurgerCount == 0)
         {
@@ -59,6 +59,11 @@ public class CashierController : MonoBehaviour
     public bool CanCarry()
     {
         return _currentBurgerCount < _maxBurgerCount;
+    }
+
+    public bool CanGive()
+    {
+        return _currentBurgerCount > 0;
     }
 
 }
