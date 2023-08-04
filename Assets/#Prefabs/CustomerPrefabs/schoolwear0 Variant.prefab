@@ -167,7 +167,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   _minBurgerCount: 1
   _maxBurgerCount: 3
-  _burgerCanvas: {fileID: 0}
+  _burgerCanvas: {fileID: 3115225118944271258}
   _unavailableAnyTableCanvas: {fileID: 3115225118944271258}
   _wantedBurgerCountText: {fileID: 2841683798776775412}
   _tray: {fileID: 9062797444916219081}

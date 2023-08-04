@@ -29,6 +29,7 @@ public class CustomerWaitArea : MonoBehaviour
                     customer.TakeBurger();
                     CashierController.instance.GiveBurger();
                 }
+                _timer = 0f;
             }
         }
     }

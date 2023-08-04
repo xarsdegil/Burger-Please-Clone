@@ -332,6 +332,10 @@ PrefabInstance:
       propertyPath: m_Name
       value: UnavailableAnyTableCanvas Variant
       objectReference: {fileID: 0}
+    - target: {fileID: 1024325355766991260, guid: b94978fae6587e14f8de992748bc2600, type: 3}
+      propertyPath: m_IsActive
+      value: 0
+      objectReference: {fileID: 0}
     - target: {fileID: 5449535859404675050, guid: b94978fae6587e14f8de992748bc2600, type: 3}
       propertyPath: m_Pivot.x
       value: 0.5
