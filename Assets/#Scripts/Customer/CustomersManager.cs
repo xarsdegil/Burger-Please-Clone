@@ -39,6 +39,7 @@ public class CustomersManager : MonoBehaviour
             _ctr = 0f;
             SpawnCustomer();
         }
+
     }
 
     private void SpawnCustomer()
@@ -51,7 +52,8 @@ public class CustomersManager : MonoBehaviour
             randIndex = UnityEngine.Random.Range(0, _customerPrefabs.Count);
         }
         lastCustomerIndex = randIndex;
-        CustomerController customer = Instantiate(_customerPrefabs[randIndex], _spawnPoint.position, Quaternion.identity);
+        //CustomerController customer = Instantiate(_customerPrefabs[randIndex], _spawnPoint.position, Quaternion.identity);
+        CustomerController customer = Instantiate(_customerPrefabs[0], _spawnPoint.position, Quaternion.identity);
         customer.transform.SetParent(transform);
         _customersQueue.Add(customer);
         customer.SetTarget(_waitPoints[_currentQueue]);
@@ -67,5 +69,10 @@ public class CustomersManager : MonoBehaviour
             _customersQueue[i].SetTarget(_waitPoints[i]);
         }
         _canSpawn = true;
+    }
+
+    public Transform GetSpawnPoint()
+    {
+        return _spawnPoint;
     }
 }

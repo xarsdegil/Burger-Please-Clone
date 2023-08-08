@@ -3,12 +3,14 @@ using System.Collections.Generic;
 using System.Threading.Tasks;
 using Unity.AI.Navigation;
 using UnityEngine;
+using UnityEngine.AI;
 
 public class NavMeshBaker : MonoBehaviour
 {
     public static NavMeshBaker instance;
 
     NavMeshSurface _navMeshSurface;
+    [SerializeField] NavMeshData _navMeshData;
 
     private void Awake()
     {
@@ -19,6 +21,7 @@ public class NavMeshBaker : MonoBehaviour
     private void Start()
     {
         //_navMeshSurface.BuildNavMesh();
+        _navMeshSurface.navMeshData = _navMeshData;
         BakeNavMesh();
     }
 
@@ -28,11 +31,14 @@ public class NavMeshBaker : MonoBehaviour
         {
             BakeNavMesh();
         }
+
+        
     }
 
     public void BakeNavMesh()
     {
-        if(_navMeshSurface.navMeshData == null) _navMeshSurface.BuildNavMesh();
-        _navMeshSurface.UpdateNavMesh(_navMeshSurface.navMeshData);
+        //_navMeshSurface.RemoveData();
+        //if(_navMeshSurface.navMeshData == null) _navMeshSurface.BuildNavMesh();
+        //_navMeshSurface.UpdateNavMesh(_navMeshSurface.navMeshData);
     }
 }

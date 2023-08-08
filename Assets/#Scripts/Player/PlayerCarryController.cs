@@ -26,6 +26,7 @@ public class PlayerCarryController : MonoBehaviour
     private void Start()
     {
         _maxBurgerCount = _allBurgers.Count;
+        _maxTrashCount = _allTrashes.Count;
         _currentBurgerCount = 0;
     }
 
@@ -131,6 +132,15 @@ public class PlayerCarryController : MonoBehaviour
         _isCarryingTrash = false;
 
         SetNormalPosition();
+    }
+
+    public bool IsCarryingBurger()
+    {
+        return _isCarryingBurger;
+    }
+    public bool IsCarryingTrash()
+    {
+        return _isCarryingTrash;
     }
     
 }

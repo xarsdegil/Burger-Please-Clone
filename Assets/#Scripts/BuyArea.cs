@@ -34,6 +34,7 @@ public class BuyArea : MonoBehaviour
             {
                 _setActiveObject.SetActive(true);
                 NavMeshBaker.instance.BakeNavMesh();
+                //AstarManager.instance.Scan();
 
                 if (_isActivatingOtherObject)
                 {

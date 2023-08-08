@@ -19,12 +19,14 @@ public class ChairController : MonoBehaviour
     public void AddBurger()
     {
         if (_currentBurgerCount == _maxBurgerCount) return;
+        if (_currentBurgerCount == 0) _plate.SetActive(true);
         _allBurgers[_currentBurgerCount].SetActive(true);
         _currentBurgerCount++;
     }
 
     public void AddBurger(int amount)
     {
+        Debug.Log("AddBurger " + amount);
         for (int i = 0; i < amount; i++)
         {
             AddBurger();
@@ -34,6 +36,7 @@ public class ChairController : MonoBehaviour
     public void RemoveBurger()
     {
         if (_currentBurgerCount == 0) return;
+
         _currentBurgerCount--;
         _allBurgers[_currentBurgerCount].SetActive(false);
     }
@@ -44,6 +47,11 @@ public class ChairController : MonoBehaviour
         {
             RemoveBurger();
         }
+    }
+
+    public void RemovePlate()
+    {
+        _plate.SetActive(false);
     }
 
     public void SetCustomer(CustomerController customerController)
@@ -57,9 +65,19 @@ public class ChairController : MonoBehaviour
         _currentCustomer = null;
     }
 
+    public CustomerController GetCurrentCustomer()
+    {
+        return _currentCustomer;
+    }
+
     public bool IsAvailable()
     {
-        return _currentCustomer == null;
+        return _currentCustomer == null && _plate.activeSelf == false;
+    }
+
+    public GameObject GetPlate()
+    {
+        return _plate;
     }
 
 }

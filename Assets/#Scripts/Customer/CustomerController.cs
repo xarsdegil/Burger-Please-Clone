@@ -49,7 +49,7 @@ public class CustomerController : MonoBehaviour
 
         if (Vector3.Distance(transform.position, _target.position) <= 1f)
         {
-            if(_target.CompareTag("Chair"))
+            if (_target.CompareTag("Chair"))
             {
                 _agent.isStopped = true;
                 transform.position = _target.position;
@@ -136,7 +136,7 @@ public class CustomerController : MonoBehaviour
     {
         if (_waitingForTable) return;
 
-        if(_currentBurgerCount == 0)
+        if (_currentBurgerCount == 0)
         {
             _tray.SetActive(true);
             _animator.SetBool("isCarrying", true);

@@ -10,10 +10,12 @@ public class PlayerTouchMovement : MonoBehaviour
 {
     [SerializeField] Vector2 _joystickSize;
     [SerializeField] FloatingJoystick _joystick;
-    [SerializeField] NavMeshAgent _navMeshAgent;
+    //[SerializeField] NavMeshAgent _navMeshAgent;
     [SerializeField] Animator _animator;
 
     [SerializeField] Transform _fwd;
+
+    [SerializeField] float _moveSpeed = 5f;
 
     Rigidbody _rigidbody;
     Finger _movementFinger;
@@ -39,20 +41,55 @@ public class PlayerTouchMovement : MonoBehaviour
         cameraRight = cameraRight.normalized;
     }
 
+    //private void Update()
+    //{
+    //    if (!_canMove) return;
+    //    Vector3 scaledMovement = new Vector3(_movementAmount.x, 0, _movementAmount.y) * _navMeshAgent.speed * Time.deltaTime;
+
+    //    Vector3 moveDir = cameraForward * scaledMovement.z + cameraRight * scaledMovement.x;
+    //    _navMeshAgent.transform.LookAt(_navMeshAgent.transform.position + moveDir, Vector3.up);
+    //    //_navMeshAgent.Move(moveDir);
+    //    _navMeshAgent.SetDestination(transform.position + moveDir);
+
+    //    if (!_isMoving)
+    //    {
+    //        _rigidbody.velocity = Vector3.zero;
+    //    }
+    //}
+
     private void Update()
     {
         if (!_canMove) return;
-        Vector3 scaledMovement = new Vector3(_movementAmount.x, 0, _movementAmount.y) * _navMeshAgent.speed * Time.deltaTime;
 
-        Vector3 moveDir = cameraForward * scaledMovement.z + cameraRight * scaledMovement.x;
-        _navMeshAgent.transform.LookAt(_navMeshAgent.transform.position + moveDir, Vector3.up);
-        _navMeshAgent.Move(moveDir);
+        Vector3 moveDir = new Vector3(_movementAmount.x, 0, _movementAmount.y);
+        moveDir = Camera.main.transform.TransformDirection(moveDir);
+        moveDir.y = 0;
+        moveDir.Normalize();
 
-        if (!_isMoving)
+        if (moveDir != Vector3.zero)
+        {
+
+            Quaternion targetRotation = Quaternion.LookRotation(moveDir, Vector3.up);
+            _animator.transform.rotation = Quaternion.Slerp(_animator.transform.rotation, targetRotation, Time.deltaTime * 1000);
+
+
+            float speed = moveDir.magnitude * _moveSpeed;
+            _rigidbody.velocity = moveDir * speed;
+
+            // Optionally, you can also control the character's animation here
+            _animator.SetBool("isRunning", true);
+        }
+        else
         {
             _rigidbody.velocity = Vector3.zero;
+            _animator.transform.rotation = _animator.transform.rotation;
+            // Optionally, you can also control the character's animation here
+            _animator.SetBool("isRunning", false);
         }
     }
+
+
+
 
     private void OnEnable()
     {

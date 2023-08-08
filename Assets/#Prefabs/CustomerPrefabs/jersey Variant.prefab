@@ -270,6 +270,7 @@ MonoBehaviour:
   - {fileID: 2329484497600408681}
   - {fileID: 4267057894105416490}
   - {fileID: 5053927079551546396}
+  _eatingTime: 3
 --- !u!54 &5544305354956276
 Rigidbody:
   m_ObjectHideFlags: 0
