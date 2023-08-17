@@ -12,7 +12,7 @@ public class CustomerController : MonoBehaviour
     ChairController _currentChair;
 
     int _wantedBurgerCount;
-    bool _waitingForTable = false;
+    bool _waitingForTable = false, _startedEating = false;
 
 
 
@@ -22,6 +22,9 @@ public class CustomerController : MonoBehaviour
     [SerializeField] TMP_Text _wantedBurgerCountText;
     [SerializeField] GameObject _tray;
     [SerializeField] List<GameObject> _allBurgers = new List<GameObject>();
+
+    [SerializeField] float _eatingTime = 1.5f;
+    float _eatingTimer = 0f;
     private void Awake()
     {
         _agent = GetComponent<NavMeshAgent>();
@@ -35,6 +38,43 @@ public class CustomerController : MonoBehaviour
     {
         if (_target == null) return;
         Move();
+        Eat();
+    }
+
+    private void Eat()
+    {
+        if (_currentChair == null) return;
+        if (_currentChair.GetPlate().activeSelf == false) return;
+        if (!_startedEating) return;
+
+        _eatingTimer += Time.deltaTime;
+        if(_eatingTimer >= _eatingTime)
+        {
+            _currentChair.RemoveBurger();
+            _eatingTimer = 0f;
+
+            if (_currentChair.GetBurgerCount() == 0)
+            {
+                _currentChair = null;
+                _startedEating = false;
+                _agent.isStopped = false;
+                _animator.SetBool("isRunning", true);
+                _animator.SetBool("isSitting", false);
+                SetTarget(CustomersManager.instance.GetSpawnPoint());
+
+                StartCoroutine(AddMoney());
+                
+            }
+        }
+    }
+
+    IEnumerator AddMoney()
+    {
+        for (int i = 0; i < _wantedBurgerCount; i++)
+        {
+            UIMoneyManager.instance.AddMoney(Camera.main.WorldToScreenPoint(transform.position), 10);
+            yield return new WaitForSeconds(0.2f);
+        }
     }
 
     private void Move()
@@ -51,23 +91,15 @@ public class CustomerController : MonoBehaviour
         {
             if (_target.CompareTag("Chair"))
             {
-                _agent.isStopped = true;
-                transform.position = _target.position;
-                var lookPos = _target.position + _target.forward;
-                transform.LookAt(lookPos);
-                _animator.SetBool("isSitting", true);
-                _animator.SetBool("isRunning", false);
-                _tray.SetActive(false);
+                SitChair();
             }
             else if (_target.CompareTag("WaitPoint"))
             {
-                _agent.isStopped = true;
-                transform.position = _target.position;
-                var lookPos = _target.position;
-                lookPos.z = transform.position.z + 1f;
-                lookPos.y = transform.position.y;
-                transform.LookAt(lookPos);
-                _animator.SetBool("isRunning", false);
+                WaitInQueue();
+            }
+            else if (_target.CompareTag("SpawnPoint"))
+            {
+                Destroy(gameObject);
             }
         }
         else
@@ -95,6 +127,34 @@ public class CustomerController : MonoBehaviour
         }
 
         _animator.SetBool("isRunning", _agent.isStopped ? false : true);
+    }
+
+    private void WaitInQueue()
+    {
+        _agent.isStopped = true;
+        transform.position = _target.position;
+        var lookPos = _target.position;
+        lookPos.z = transform.position.z + 1f;
+        lookPos.y = transform.position.y;
+        transform.LookAt(lookPos);
+        _animator.SetBool("isRunning", false);
+    }
+
+    private void SitChair()
+    {
+        if (_animator.GetBool("isSitting")) return;
+
+        _agent.isStopped = true;
+        transform.position = _target.position;
+        var lookPos = _target.position + _target.forward;
+        transform.LookAt(lookPos);
+        _animator.SetBool("isSitting", true);
+        _animator.SetBool("isRunning", false);
+        _tray.SetActive(false);
+
+        _currentChair.SetCustomer(this);
+        _currentChair.AddBurger(_wantedBurgerCount);
+        _startedEating = true;
     }
 
     public void SetTarget(Transform target)

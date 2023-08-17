@@ -21,6 +21,10 @@ PrefabInstance:
       value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 3613479128518106509, guid: 0efd556b2f58d514a8ad250095a1d5a8, type: 3}
+      propertyPath: m_LocalScale.z
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 3613479128518106509, guid: 0efd556b2f58d514a8ad250095a1d5a8, type: 3}
       propertyPath: m_LocalPosition.x
       value: 0
       objectReference: {fileID: 0}
@@ -70,6 +74,11 @@ GameObject:
   m_CorrespondingSourceObject: {fileID: 1693469847120845106, guid: 0efd556b2f58d514a8ad250095a1d5a8, type: 3}
   m_PrefabInstance: {fileID: 1378139269232885514}
   m_PrefabAsset: {fileID: 0}
+--- !u!1 &1439142464653159417 stripped
+GameObject:
+  m_CorrespondingSourceObject: {fileID: 61078073917871347, guid: 0efd556b2f58d514a8ad250095a1d5a8, type: 3}
+  m_PrefabInstance: {fileID: 1378139269232885514}
+  m_PrefabAsset: {fileID: 0}
 --- !u!4 &2379459995469636231 stripped
 Transform:
   m_CorrespondingSourceObject: {fileID: 3613479128518106509, guid: 0efd556b2f58d514a8ad250095a1d5a8, type: 3}
@@ -80,14 +89,9 @@ GameObject:
   m_CorrespondingSourceObject: {fileID: 3461354673561824200, guid: 0efd556b2f58d514a8ad250095a1d5a8, type: 3}
   m_PrefabInstance: {fileID: 1378139269232885514}
   m_PrefabAsset: {fileID: 0}
---- !u!1 &4056985308254731137 stripped
+--- !u!1 &6997467867097963557 stripped
 GameObject:
-  m_CorrespondingSourceObject: {fileID: 3129277135011972235, guid: 0efd556b2f58d514a8ad250095a1d5a8, type: 3}
-  m_PrefabInstance: {fileID: 1378139269232885514}
-  m_PrefabAsset: {fileID: 0}
---- !u!1 &4997249328021753015 stripped
-GameObject:
-  m_CorrespondingSourceObject: {fileID: 6231268383781794749, guid: 0efd556b2f58d514a8ad250095a1d5a8, type: 3}
+  m_CorrespondingSourceObject: {fileID: 8231416485091861295, guid: 0efd556b2f58d514a8ad250095a1d5a8, type: 3}
   m_PrefabInstance: {fileID: 1378139269232885514}
   m_PrefabAsset: {fileID: 0}
 --- !u!1001 &1528291729356808801
@@ -268,8 +272,8 @@ MonoBehaviour:
   _tray: {fileID: 333349418216285752}
   _allBurgers:
   - {fileID: 2533575925970113730}
-  - {fileID: 4056985308254731137}
-  - {fileID: 4997249328021753015}
+  - {fileID: 6997467867097963557}
+  - {fileID: 1439142464653159417}
   _eatingTime: 3
 --- !u!54 &-2563699874257596445
 Rigidbody:

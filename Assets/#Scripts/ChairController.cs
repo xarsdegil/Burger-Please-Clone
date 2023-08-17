@@ -80,4 +80,9 @@ public class ChairController : MonoBehaviour
         return _plate;
     }
 
+    public int GetBurgerCount()
+    {
+        return _currentBurgerCount;
+    }
+
 }
