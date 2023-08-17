@@ -30,6 +30,7 @@ public class BuyArea : MonoBehaviour
         if (other.CompareTag("Player"))
         {
             var moneyText = GameObject.Find("MoneyText").GetComponent<TMP_Text>();
+
             if (_spentAmount >= _cost)
             {
                 _setActiveObject.SetActive(true);
@@ -46,6 +47,13 @@ public class BuyArea : MonoBehaviour
                     DialogueManager.instance.StartDialogue(_dialogueData);
                 }
                 Destroy(gameObject);
+            }
+
+            var money = int.Parse(moneyText.text);
+            if (money == 0)
+            {
+                ctr = _waitTime;
+                return;
             }
 
             if (ctr <= 0)
